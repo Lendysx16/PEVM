@@ -26,7 +26,7 @@ int main() {
     unsigned char buffer[16];
     size_t buffer_size = 16;
 
-    unsigned symbols_count = 0, k = 16, klen;
+    unsigned symbols_count = 0, k = 0, klen;
 
     while(InFile.peek() != EOF){
 
@@ -41,20 +41,12 @@ int main() {
         }
 
         if(symbols_count > 0){
-            if(k > 0) {
-                OutFile << k + symbols_count - 16;
-                klen = len_of_num(k + symbols_count - 16);}
-            else {
-                OutFile << symbols_count;
-                klen = len_of_num(symbols_count);
-            }
             buffer_size = symbols_count;
         }
-        else {
-            OutFile << k;
-            klen = len_of_num(k);
-            k += 16;
-        }
+        OutFile << k;
+        klen = len_of_num(k);
+        k += 16;
+
         for(unsigned i = 5; i > klen; --i){
             OutFile << ' ';
         }
@@ -64,7 +56,7 @@ int main() {
                 if(i == 7){
                     OutFile << "| ";
                 }
-            if(buffer[i] > 13){
+            if(buffer[i] > 32){
                 OutFile<< to_hex(buffer[i]) << ' ';
             }
             else OutFile << "00" << ' ';
@@ -75,7 +67,7 @@ int main() {
         }
         OutFile << "    ";
         for(size_t i = 0; i < buffer_size; ++i){
-            if(buffer[i] > 13) OutFile << buffer[i];
+            if(buffer[i] > 32) OutFile << buffer[i];
             else OutFile << '.';
         }
         OutFile << '\n';
@@ -108,6 +100,7 @@ std::string to_hex(unsigned char sym){
 }
 
 unsigned int len_of_num(int k){
+    if (k == 0) return 1;
     unsigned int counter = 0;
     if(k < 0) ++counter;
     while(k > 0){
