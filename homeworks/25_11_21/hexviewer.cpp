@@ -8,7 +8,7 @@ const char hextable[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 
 
 
 int main() {
-    char infilename[] = "C:\\Users\\GLeb\\hexviewer\\input.txt", outfilename[] = "C:\\Users\\GLeb\\hexviewer\\output.txt";
+    char infilename[] = "input.txt", outfilename[] = "output.txt";
     std::ifstream InFile;
     std::ofstream OutFile;
     InFile.open(infilename, std::ios_base::binary);
