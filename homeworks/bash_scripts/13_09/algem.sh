@@ -1,3 +1,5 @@
+#!/bin/bash
+
 filename="$(date "+%Y-%m-%d").log"
 
 touch "${filename}"
