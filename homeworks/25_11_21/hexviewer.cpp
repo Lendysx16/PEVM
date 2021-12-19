@@ -2,6 +2,8 @@
 #include <fstream>
 
 std::string to_hex(unsigned char sym);
+std::string to_hex(unsigned int sym);
+void reverse_string(std::string &str);
 unsigned int len_of_num(int k);
 
 const char hextable[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D','E', 'F'};
@@ -25,7 +27,7 @@ int main() {
     unsigned char buffer[16];
     size_t buffer_size = 16;
 
-    unsigned symbols_count = 0, k = 0, klen;
+    unsigned symbols_count = 0, k = 0;
 
     while(InFile.peek() != EOF){
 
@@ -42,15 +44,8 @@ int main() {
         if(symbols_count > 0){
             buffer_size = symbols_count;
         }
-        OutFile << k;
-        klen = len_of_num(k);
         k += 16;
-
-        for(unsigned i = 5; i > klen; --i){
-            OutFile << ' ';
-        }
-        OutFile <<':';
-
+        OutFile << to_hex(k) << ":";
         for(size_t i = 0; i < buffer_size; ++i){
             if(i == 7){
                 OutFile << "| ";
@@ -89,6 +84,24 @@ std::string to_hex(unsigned char sym){
     }
     std::swap(answ[0], answ[1]);
     return answ;
+}
+std::string to_hex(unsigned int k){
+    std::string answ = "";
+    while(k > 0){
+        answ += hextable[k%16];
+        k >>=4;
+    }
+    while(answ.length() < 7) answ += '0';
+    reverse_string(answ);
+    return answ;
+}
+
+void reverse_string(std::string &str){
+    size_t len = str.length();
+    --len;
+    for(unsigned int i = 0; i < (len + 1)/2; ++i){
+        std::swap(str[i], str[len - i]);
+    }
 }
 
 unsigned int len_of_num(int k){
