@@ -10,6 +10,11 @@ int main(){
     for(size_t i = 0; i < rows; ++i){
         R[i] = new int[cols];
     }
+    for(size_t i = 0; i < rows; ++i){
+        for(size_t j = 0; j < cols; ++j){
+            R[i][j] = 0;
+        }
+    }
     size_t horiz = 1, vert = 1;
     int s = 1;
 
