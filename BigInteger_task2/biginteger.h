@@ -45,7 +45,7 @@ private:
             tmp = nullptr;
             delete[] tmp;
         } else if (needless_zeros == size_) {
-            delete num_;
+            delete[] num_;
             size_ = 1;
             num_ = new unsigned int[1];
             num_[0] = 0;

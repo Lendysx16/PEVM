@@ -63,7 +63,7 @@ BigInteger::BigInteger(const std::string &X) {
         if (i % 9 == 0) tengrade = 1;
         else tengrade *= 10;
     }
-    delete num_;
+    delete[] num_;
     num_ = new unsigned int[len];
     for (auto k = 0; k < len; ++k) num_[k] = 0;
     unsigned long long carry, diff;
@@ -280,8 +280,8 @@ BigInteger BigInteger::bin_mod(const BigInteger &X) {
     xcopy.sign_ = false;
     while (left <= xcopy) {
         mid = (left + xcopy) >> 1;
-        carry = *this - mid * absX;
         mult = mid * absX;
+        carry = *this - mult;
         carry.sign_ = false;
         if (mid >= (*this)) {
             return 0;
@@ -310,8 +310,8 @@ BigInteger BigInteger::bin_division(const BigInteger &X) {
     xcopy.sign_ = false;
     while (left <= xcopy) {
         mid = (left + xcopy).division_on_small_num(2);
-        carry = *this - mid * absX;
         mult = mid * absX;
+        carry = *this - mult;
         carry.sign_ = false;
         if (mid >= (*this)) {
             return 0;
@@ -656,7 +656,7 @@ BigInteger &BigInteger::operator<<=(int rhs) {
     if(block) size_ += block;
     if(rest) ++size_;
     auto tmp = new unsigned int[size_];
-    for(auto i = rest1; i < size_; ++i)
+    for(auto i = rest1; i < size_ - block; ++i)
         tmp[i] = num_[i - rest1];
     for(auto i = size_ - block; i < size_; ++i)
         tmp[i] = 0;
